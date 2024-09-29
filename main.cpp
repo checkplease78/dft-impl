@@ -11,7 +11,7 @@ std::pair<double, double> kth_dft(double k, const std::vector<double>& samples) 
     for (double n = 0; n < N; ++n) {
         xk += samples[n] * exp((-1.0i) * 2.0 * std::numbers::pi * k * n / N);
     }
-    return {xk.real(), xk.imag()};  
+    return {xk.real(), xk.imag()};
 }
 
 // all of this for rect -> polar basically
@@ -40,13 +40,14 @@ int main() {
     std::cout << "input f2: ";
     std::cin >> f2;
 
-    int sampling_rate, sampling_time;
+    int sampling_time;
+    double sampling_rate;
     std::cout << "input sampling time in seconds: ";
     std::cin >> sampling_time;
     std::cout << "input sampling rate (higher = more accurate maybe) in hz: ";
     std::cin >> sampling_rate;
 
-    int sample_num = sampling_rate * sampling_time;
+    double sample_num = sampling_rate * sampling_time;
 
     std::vector<double> samples(sample_num);
     std::vector<double> times(sample_num);
@@ -79,9 +80,11 @@ int main() {
             std::cout << "k=" << k
                       << " | f: " << frequency << " hz"
                       << " | A: " << amplitude
-                      << " | phi: " << phase << " rad\n";
+                      << " | phi: " << phase << " rad"
+                      << " | eqn: " << amplitude << "*cos(2*pi*" << frequency << "+" << phase << ")\n"; 
         }
     }
+    std::cout << "\n+- in output means -";
 
     return 0;
 }
