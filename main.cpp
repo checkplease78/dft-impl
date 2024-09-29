@@ -14,8 +14,11 @@ std::pair<double, double> kth_dft(double k, const std::vector<double>& samples) 
     return {xk.real(), xk.imag()};  
 }
 
+// all of this for rect -> polar basically
 double compute_amplitude(double real, double imag, double sample_num) {
-    return (2.0 / sample_num) * std::sqrt(real * real + imag * imag);
+    return (2.0 / sample_num) * std::sqrt(real * real + imag * imag); 
+    // since dft sums up the amplitude for all samples, 2.0/N makes it so that
+    // the actual amplitude is there
 }
 
 double compute_phase(double real, double imag) {
@@ -52,7 +55,7 @@ int main() {
         times[i] = static_cast<double>(i) / sampling_rate;
     }
 
-    double c1 = 2.0 * std::numbers::pi * f1;
+    double c1 = 2.0 * std::numbers::pi * f1; // precomputed constants for better performance
     double c2 = 2.0 * std::numbers::pi * f2;
     for (int i = 0; i < sample_num; ++i) {
         double t = times[i];
@@ -72,7 +75,7 @@ int main() {
         double phase = compute_phase(xk.first, xk.second);
         double frequency = compute_frequency(k, sample_num, sampling_rate);
 
-        if (amplitude > 1e-3) {
+        if (amplitude > 1e-3) { // very arbitrary, moight change if get feednacl or something
             std::cout << "k=" << k
                       << " | f: " << frequency << " hz"
                       << " | A: " << amplitude
